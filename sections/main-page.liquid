@@ -1,0 +1,17 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px; max-width:760px;">
+  <div class="section-head reveal">
+    <div><span class="eyebrow">{{ section.settings.eyebrow | default: "Aurora Beauty" }}</span><h2 style="margin-top:8px;">{{ page.title }}</h2></div>
+  </div>
+  <div style="font-family:'Inter',sans-serif; font-size:14.5px; color:var(--ink-soft); line-height:1.8;">
+    {{ page.content }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Página",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Aurora Beauty" }
+  ]
+}
+{% endschema %}

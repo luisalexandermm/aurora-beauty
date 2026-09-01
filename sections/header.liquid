@@ -1,0 +1,41 @@
+<header id="header">
+  <div class="wrap header-inner">
+    <button class="menu-toggle" id="MenuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="MobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="{{ routes.root_url }}#top" class="logo">
+      {% if section.settings.logo != blank %}
+        <img src="{{ section.settings.logo | image_url: width: 220 }}" alt="{{ shop.name }}" style="max-height:40px; width:auto;">
+      {% else %}
+        {{ section.settings.logo_text | default: 'AURORA' }}<br><small>{{ section.settings.logo_sub | default: 'B E A U T Y' }}</small>
+      {% endif %}
+    </a>
+    <nav class="main-nav">
+      <ul>
+        {% for link in linklists[section.settings.menu].links %}
+          <li><a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="header-icons">
+      <button class="icon-btn" id="SearchToggle" aria-label="Buscar">{% render 'icon-search' %}</button>
+      <a href="{{ routes.account_url }}" class="icon-btn" aria-label="Cuenta">{% render 'icon-account' %}</a>
+      <button class="icon-btn" id="CartToggle" aria-label="Carrito">
+        {% render 'icon-cart' %}
+        <span class="badge" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Encabezado",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (opcional)" },
+    { "type": "text", "id": "logo_text", "label": "Texto de logo (si no hay imagen)", "default": "AURORA" },
+    { "type": "text", "id": "logo_sub", "label": "Subtítulo del logo", "default": "B E A U T Y" },
+    { "type": "link_list", "id": "menu", "label": "Menú de navegación", "default": "main-menu" }
+  ]
+}
+{% endschema %}

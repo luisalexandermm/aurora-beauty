@@ -1,0 +1,55 @@
+<section id="rutina">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><span class="eyebrow">{{ section.settings.eyebrow | default: "Guía" }}</span><h2 style="margin-top:8px;">{{ section.settings.heading | default: "Rutinas recomendadas" }}</h2></div>
+    </div>
+    <div class="routine-track reveal">
+      {% for block in section.blocks %}
+        <div class="routine-step" {{ block.shopify_attributes }}>
+          <div class="routine-img" style="background:{{ block.settings.color | default: '#f0ded0' }};">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ block.settings.title }}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="routine-num">{{ forloop.index }}</div>
+          <h5>{{ block.settings.title }}</h5>
+          <p>{{ block.settings.text }}</p>
+        </div>
+        {% unless forloop.last %}
+          <svg class="routine-arrow" width="26" height="10" viewBox="0 0 26 10" fill="none" stroke="currentColor"><path d="M1 5h22M18 1l5 4-5 4"/></svg>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rutina recomendada",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Guía" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Rutinas recomendadas" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "text", "id": "text", "label": "Descripción" },
+        { "type": "color", "id": "color", "label": "Color de fondo", "default": "#F0DED0" },
+        { "type": "image_picker", "id": "image", "label": "Imagen (opcional)" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "step", "settings": { "title": "Limpiar", "text": "Espuma o gel limpiador", "color": "#F0DED0" } },
+      { "type": "step", "settings": { "title": "Tratar", "text": "Sérum o tónico facial", "color": "#E6C8BA" } },
+      { "type": "step", "settings": { "title": "Hidratar", "text": "Crema hidratante adecuada", "color": "#DFC9B3" } },
+      { "type": "step", "settings": { "title": "Proteger", "text": "Protector solar FPS 50+", "color": "#EAD9C9" } }
+    ]
+  },
+  "presets": [{ "name": "Rutina recomendada" }]
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px; max-width:420px;">
+  <div class="section-head reveal"><div><h2>Crear cuenta</h2></div></div>
+  {% form 'create_customer' %}
+    {% if form.errors %}
+      <p style="font-family:'Inter',sans-serif; color:#B33; font-size:12.5px; margin-bottom:14px;">{{ form.errors | default_errors }}</p>
+    {% endif %}
+    <div class="checkout-row">
+      <div class="checkout-field"><label>Nombre</label><input type="text" name="customer[first_name]"></div>
+      <div class="checkout-field"><label>Apellido</label><input type="text" name="customer[last_name]"></div>
+    </div>
+    <div class="checkout-field"><label>Correo electrónico</label><input type="email" name="customer[email]" required></div>
+    <div class="checkout-field"><label>Contraseña</label><input type="password" name="customer[password]" required></div>
+    <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px;">Crear cuenta →</button>
+  {% endform %}
+  <p style="font-family:'Inter',sans-serif; font-size:12.5px; color:var(--ink-soft); margin-top:18px;">
+    ¿Ya tienes cuenta? <a href="{{ routes.account_login_url }}" style="color:var(--rosegold);">Inicia sesión</a>
+  </p>
+</section>

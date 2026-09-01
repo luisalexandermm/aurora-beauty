@@ -1,0 +1,43 @@
+<div class="cart-drawer" id="CartDrawer">
+  <div class="cart-overlay" data-cart-close></div>
+  <div class="cart-panel">
+    <div class="cart-head"><h3>Tu carrito</h3><button data-cart-close style="font-size:18px;" aria-label="Cerrar">✕</button></div>
+
+    <div class="cart-body" id="CartBody">
+      {% if cart.item_count > 0 %}
+        {% for item in cart.items %}
+          <div class="cart-item" data-key="{{ item.key }}">
+            {% if item.image %}
+              <div class="sw" style="background-image:url('{{ item.image | image_url: width: 140 }}'); background-size:cover; background-position:center;"></div>
+            {% else %}
+              <div class="sw"></div>
+            {% endif %}
+            <div style="flex:1;">
+              <div class="n">{{ item.product.title }}</div>
+              {% unless item.variant.title == 'Default Title' %}
+                <div class="m">{{ item.variant.title }}</div>
+              {% endunless %}
+              <div class="row">
+                <div class="qty">
+                  <button type="button" data-qty-minus aria-label="Restar">–</button>
+                  <input readonly value="{{ item.quantity }}">
+                  <button type="button" data-qty-plus aria-label="Sumar">+</button>
+                </div>
+                <span class="cart-price">{{ item.final_line_price | money }}</span>
+              </div>
+            </div>
+            <button class="cart-remove" data-cart-remove aria-label="Eliminar">✕</button>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="cart-empty">Tu carrito está vacío.</div>
+      {% endif %}
+    </div>
+
+    <div class="cart-foot">
+      <div class="row"><span>Subtotal</span><span id="CartSubtotal">{{ cart.total_price | money }}</span></div>
+      <button type="button" class="btn btn-primary" data-checkout-trigger>Ir al pago</button>
+      <a href="{{ routes.cart_url }}" class="btn btn-outline">Ver carrito</a>
+    </div>
+  </div>
+</div>

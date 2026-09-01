@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "hero": { "type": "hero" },
+    "categorias": { "type": "collection-list" },
+    "productos": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "productos", "eyebrow": "Selección", "heading": "Productos destacados", "link_url": "#colecciones", "link_label": "Ver todos →", "initial_count": 8 }
+    },
+    "skincare": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "skincare", "eyebrow": "Categoría", "heading": "Skincare", "link_url": "#top", "initial_count": 8 }
+    },
+    "maquillaje": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "maquillaje", "eyebrow": "Categoría", "heading": "Maquillaje", "link_url": "#top", "initial_count": 8, "alt_background": true }
+    },
+    "cabello": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "cabello", "eyebrow": "Categoría", "heading": "Cabello", "link_url": "#top", "initial_count": 8 }
+    },
+    "belleza_facial": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "belleza-facial", "eyebrow": "Categoría", "heading": "Belleza Facial", "link_url": "#top", "initial_count": 8, "alt_background": true }
+    },
+    "perfumeria": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "perfumeria", "eyebrow": "Categoría", "heading": "Perfumería", "link_url": "#top", "initial_count": 8 }
+    },
+    "accesorios": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "accesorios", "eyebrow": "Categoría", "heading": "Accesorios", "link_url": "#top", "initial_count": 8, "alt_background": true }
+    },
+    "ofertas": {
+      "type": "collection-showcase",
+      "settings": { "anchor": "ofertas", "eyebrow": "Descuentos activos", "heading": "Ofertas", "link_url": "#top", "initial_count": 8 }
+    },
+    "rutina": { "type": "routine" },
+    "benefits": { "type": "benefits" },
+    "colecciones": { "type": "collections-editorial" },
+    "newsletter": { "type": "newsletter" }
+  },
+  "order": ["hero", "categorias", "productos", "skincare", "maquillaje", "cabello", "belleza_facial", "perfumeria", "accesorios", "ofertas", "rutina", "benefits", "colecciones", "newsletter"]
+}

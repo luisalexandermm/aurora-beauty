@@ -1,0 +1,18 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px; max-width:640px;">
+  <div class="section-head reveal"><div><h2>Pedido {{ order.name }}</h2></div></div>
+  <p style="font-family:'Inter',sans-serif; font-size:13.5px; color:var(--ink-soft); margin-bottom:20px;">
+    Estado: {{ order.fulfillment_status_label }} · {{ order.financial_status_label }}
+  </p>
+  <div style="border-top:1px solid var(--line);">
+    {% for line_item in order.line_items %}
+      <div class="cart-item" style="padding:16px 0;">
+        {% if line_item.image %}<div class="sw" style="background-image:url('{{ line_item.image | image_url: width: 140 }}'); background-size:cover;"></div>{% else %}<div class="sw"></div>{% endif %}
+        <div style="flex:1;"><div class="n">{{ line_item.title }}</div><div class="m">Cantidad: {{ line_item.quantity }}</div></div>
+        <span class="cart-price">{{ line_item.final_line_price | money }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="cart-foot" style="border-top:1px solid var(--line); padding-top:20px;">
+    <div class="row"><span>Total</span><span>{{ order.total_price | money }}</span></div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Aurora Beauty",
+    "theme_version": "1.0.0",
+    "theme_author": "Maturana Tech"
+  },
+  {
+    "name": "Contacto y pedidos",
+    "settings": [
+      { "type": "text", "id": "whatsapp_number", "label": "Número de WhatsApp (con código de país, sin +)", "default": "573145312045", "info": "Ej: 573145312045. Se usa para recibir los pedidos del checkout y el botón del menú móvil." }
+    ]
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      { "type": "header", "content": "Paleta Aurora Beauty" },
+      { "type": "color", "id": "color_pearl", "label": "Perla (fondo principal)", "default": "#FCFBFA" },
+      { "type": "color", "id": "color_pearl_2", "label": "Perla alterno", "default": "#F7F5F3" },
+      { "type": "color", "id": "color_champagne", "label": "Champán", "default": "#D8B89C" },
+      { "type": "color", "id": "color_rosegold", "label": "Oro rosa (acento principal)", "default": "#C78F82" },
+      { "type": "color", "id": "color_ink", "label": "Tinta (texto principal)", "default": "#1F1F1F" }
+    ]
+  },
+  {
+    "name": "Redes sociales",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "URL de Instagram" },
+      { "type": "text", "id": "social_tiktok", "label": "URL de TikTok" },
+      { "type": "text", "id": "social_facebook", "label": "URL de Facebook" }
+    ]
+  }
+]

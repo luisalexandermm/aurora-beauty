@@ -1,0 +1,83 @@
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign img = product.featured_image
+
+  assign fallback_img = null
+  case product.type
+    when 'Skincare'
+      assign fallback_img = 'category-skincare.webp'
+    when 'Maquillaje'
+      assign fallback_img = 'category-maquillaje.webp'
+    when 'Cabello'
+      assign fallback_img = 'category-cabello.webp'
+    when 'Belleza Facial'
+      assign fallback_img = 'category-belleza-facial.webp'
+    when 'Perfumería' or 'Perfumeria'
+      assign fallback_img = 'category-perfumeria.webp'
+    when 'Accesorios'
+      assign fallback_img = 'category-accesorios.webp'
+  endcase
+
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+  if rating
+    assign rating_rounded = rating | round
+  endif
+
+  assign discount_pct = 0
+  if variant.compare_at_price > variant.price
+    assign discount_pct = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price
+  endif
+
+  assign now_ts = 'now' | date: '%s'
+  assign created_ts = product.created_at | date: '%s'
+  assign days_since_created = now_ts | minus: created_ts | divided_by: 86400
+-%}
+<div class="prod-card" data-product-card>
+  <div class="prod-media{% unless product.available %} is-sold-out{% endunless %}" data-qv="{{ product.handle }}">
+    <div class="prod-tilt">
+      {% if img %}
+        <img class="prod-img" src="{{ img | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
+      {% elsif fallback_img %}
+        <img class="prod-img" src="{{ fallback_img | asset_url }}" alt="{{ product.title | escape }}" loading="lazy">
+      {% endif %}
+      <span class="glare"></span>
+    </div>
+
+    {% if product.available == false %}
+      <span class="prod-tag prod-tag--muted">Agotado</span>
+    {% elsif discount_pct > 0 %}
+      <span class="prod-tag">-{{ discount_pct }}%</span>
+    {% elsif days_since_created <= 28 %}
+      <span class="prod-tag">Nuevo</span>
+    {% endif %}
+
+    <button class="prod-fav" aria-label="Favorito" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 20s-7-4.4-9.5-8.8C.7 8 2 4.5 5.5 4c2-.3 3.7.7 4.5 2.2C10.8 4.7 12.5 3.7 14.5 4c3.5.5 4.8 4 3 7.2C19 15.6 12 20 12 20z"/></svg>
+    </button>
+  </div>
+
+  <a href="{{ product.url }}" style="display:block;"><div class="prod-name">{{ product.title }}</div></a>
+  {% if product.vendor != blank %}<div class="prod-desc">{{ product.vendor }}</div>{% endif %}
+
+  {% if rating %}
+    <div class="prod-rating">
+      {% for i in (1..5) %}{% if i <= rating_rounded %}★{% else %}☆{% endif %}{% endfor %}
+      {% if rating_count %}<span>({{ rating_count }})</span>{% endif %}
+    </div>
+  {% endif %}
+
+  <div class="prod-price-row">
+    <span class="prod-price">
+      {{ variant.price | money }}
+      {% if variant.compare_at_price > variant.price %}<span class="compare">{{ variant.compare_at_price | money }}</span>{% endif %}
+    </span>
+    {% if product.available %}
+      <button class="prod-add" data-add data-variant-id="{{ variant.id }}" aria-label="Agregar {{ product.title | escape }} al carrito" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    {% else %}
+      <span class="prod-add prod-add--disabled" aria-hidden="true">·</span>
+    {% endif %}
+  </div>
+</div>

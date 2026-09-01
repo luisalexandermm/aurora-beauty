@@ -1,0 +1,37 @@
+<section class="hero" id="top">
+  <div class="hero-bg" id="heroBg"></div>
+  {% if section.settings.emblem != blank %}
+    <div class="hero-emblem"><img src="{{ section.settings.emblem | image_url: width: 500 }}" alt="{{ shop.name }}"></div>
+  {% elsif section.settings.use_default_emblem %}
+    <div class="hero-emblem"><img src="{{ 'hero-emblem.webp' | asset_url }}" alt="{{ shop.name }}"></div>
+  {% endif %}
+  <div class="hero-inner">
+    <h1>{{ section.settings.heading }}</h1>
+    <p>{{ section.settings.subheading }}</p>
+    <div class="hero-actions">
+      {% if section.settings.button1_label != blank %}
+        <a href="{{ section.settings.button1_url | default: '#productos' }}" class="btn btn-primary magnetic">{{ section.settings.button1_label }} →</a>
+      {% endif %}
+      {% if section.settings.button2_label != blank %}
+        <a href="{{ section.settings.button2_url | default: '#footer' }}" class="btn btn-outline magnetic">{{ section.settings.button2_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "emblem", "label": "Emblema / logo (lado derecho, pantallas grandes)" },
+    { "type": "checkbox", "id": "use_default_emblem", "label": "Usar el emblema Aurora Beauty incluido (si no subes uno propio)", "default": true },
+    { "type": "richtext", "id": "heading", "label": "Título", "default": "<p>Tu rutina,<br>tu momento,<br><em>tu luz.</em></p>" },
+    { "type": "textarea", "id": "subheading", "label": "Párrafo", "default": "Productos cuidadosamente seleccionados para realzar tu belleza natural y cuidar de ti cada día." },
+    { "type": "text", "id": "button1_label", "label": "Texto botón 1", "default": "Descubrir productos" },
+    { "type": "url", "id": "button1_url", "label": "Enlace botón 1" },
+    { "type": "text", "id": "button2_label", "label": "Texto botón 2", "default": "Conocer más" },
+    { "type": "url", "id": "button2_url", "label": "Enlace botón 2" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

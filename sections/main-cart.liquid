@@ -1,0 +1,41 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px; max-width:820px;">
+  <div class="section-head reveal">
+    <div><span class="eyebrow">Tu pedido</span><h2 style="margin-top:8px;">Carrito</h2></div>
+  </div>
+
+  {% if cart.item_count == 0 %}
+    <p style="font-family:'Inter',sans-serif; font-size:13.5px; color:var(--ink-soft);">Tu carrito está vacío.</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary" style="margin-top:18px;">Seguir comprando →</a>
+  {% else %}
+    <div style="display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line);">
+      {% for item in cart.items %}
+        <div class="cart-item" data-key="{{ item.key }}" style="padding:20px 0;">
+          {% if item.image %}
+            <div class="sw" style="width:76px; height:76px; background-image:url('{{ item.image | image_url: width: 160 }}'); background-size:cover; background-position:center;"></div>
+          {% else %}
+            <div class="sw" style="width:76px; height:76px;"></div>
+          {% endif %}
+          <div style="flex:1;">
+            <div class="n">{{ item.product.title }}</div>
+            {% unless item.variant.title == 'Default Title' %}<div class="m">{{ item.variant.title }}</div>{% endunless %}
+            <div class="row" style="margin-top:8px;">
+              <div class="qty">
+                <button type="button" data-qty-minus aria-label="Restar">–</button>
+                <input readonly value="{{ item.quantity }}">
+                <button type="button" data-qty-plus aria-label="Sumar">+</button>
+              </div>
+              <span class="cart-price">{{ item.final_line_price | money }}</span>
+            </div>
+          </div>
+          <button class="cart-remove" data-cart-remove aria-label="Eliminar">✕</button>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="cart-foot" style="border-top:1px solid var(--line); padding:24px 0 0; margin-top:10px;">
+      <div class="row"><span>Subtotal</span><span id="CartSubtotal">{{ cart.total_price | money }}</span></div>
+      <button type="button" class="btn btn-primary" data-checkout-trigger>Ir al pago</button>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-outline">Seguir comprando</a>
+    </div>
+  {% endif %}
+</section>

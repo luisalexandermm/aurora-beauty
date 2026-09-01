@@ -1,0 +1,26 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px;">
+  <div class="section-head reveal">
+    <div><span class="eyebrow">Búsqueda</span><h2 style="margin-top:8px;">
+      {% if search.performed %}Resultados para "{{ search.terms }}"{% else %}Buscar en la tienda{% endif %}
+    </h2></div>
+  </div>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" style="max-width:420px; margin:-30px 0 40px;">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Buscar productos..." style="width:100%; padding:12px 16px; border:1px solid var(--line); border-radius:100px; font-family:'Inter',sans-serif; font-size:13.5px;">
+    <input type="hidden" name="type" value="product">
+  </form>
+
+  {% if search.performed %}
+    {% if search.results.size > 0 %}
+      <div class="prod-grid reveal">
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+            {% render 'product-card', product: item %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="font-family:'Inter',sans-serif; font-size:13px; color:var(--ink-soft);">No encontramos resultados para "{{ search.terms }}".</p>
+    {% endif %}
+  {% endif %}
+</section>

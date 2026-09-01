@@ -1,0 +1,10 @@
+<div class="announce">{{ section.settings.text | default: "✦ ENVÍO GRATIS EN COMPRAS SUPERIORES A $150.000" }}</div>
+
+{% schema %}
+{
+  "name": "Barra de anuncio",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Texto", "default": "✦ ENVÍO GRATIS EN COMPRAS SUPERIORES A $150.000" }
+  ]
+}
+{% endschema %}

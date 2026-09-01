@@ -1,0 +1,23 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px;">
+  <div class="section-head reveal">
+    <div><h2>Hola, {{ customer.first_name }}</h2></div>
+    <a class="section-link" href="{{ routes.account_logout_url }}">Cerrar sesión</a>
+  </div>
+
+  {% paginate customer.orders by 10 %}
+    {% if customer.orders.size > 0 %}
+      <div style="border-top:1px solid var(--line);">
+        {% for order in customer.orders %}
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid var(--line); font-family:'Inter',sans-serif; font-size:13.5px;">
+            <a href="{{ order.customer_url }}" style="color:var(--ink);"><strong>{{ order.name }}</strong> · {{ order.created_at | date: '%d %b %Y' }}</a>
+            <span style="color:var(--ink-soft);">{{ order.financial_status_label }} · {{ order.total_price | money }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="font-family:'Inter',sans-serif; font-size:13.5px; color:var(--ink-soft);">Todavía no tienes pedidos.</p>
+    {% endif %}
+  {% endpaginate %}
+
+  <a href="{{ routes.account_addresses_url }}" class="btn btn-outline" style="margin-top:26px;">Gestionar direcciones</a>
+</section>

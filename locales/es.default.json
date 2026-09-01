@@ -1,0 +1,10 @@
+{
+  "general": {
+    "meta": {
+      "page": "página {{ page }}"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Saltar al contenido"
+  }
+}

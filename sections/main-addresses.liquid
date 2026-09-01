@@ -1,0 +1,27 @@
+<section class="wrap" style="padding-top:150px; padding-bottom:100px; max-width:600px;">
+  <div class="section-head reveal">
+    <div><h2>Tus direcciones</h2></div>
+    <a class="section-link" href="{{ routes.account_url }}">← Volver a mi cuenta</a>
+  </div>
+
+  {% for address in customer.addresses %}
+    <div style="padding:16px 0; border-bottom:1px solid var(--line); font-family:'Inter',sans-serif; font-size:13.5px; color:var(--ink-soft);">
+      {{ address | format_address }}
+    </div>
+  {% endfor %}
+
+  {% form 'customer_address', customer.new_address %}
+    <p class="sub" style="margin:18px 0 10px; text-transform:uppercase; letter-spacing:.08em; font-size:10.5px; font-family:'Manrope',sans-serif; color:var(--rosegold);">Agregar nueva dirección</p>
+    <div class="checkout-row">
+      <div class="checkout-field"><label>Nombre</label><input type="text" name="address[first_name]"></div>
+      <div class="checkout-field"><label>Apellido</label><input type="text" name="address[last_name]"></div>
+    </div>
+    <div class="checkout-field"><label>Dirección</label><input type="text" name="address[address1]"></div>
+    <div class="checkout-row">
+      <div class="checkout-field"><label>Ciudad</label><input type="text" name="address[city]"></div>
+      <div class="checkout-field"><label>Departamento</label><input type="text" name="address[province]"></div>
+    </div>
+    <div class="checkout-field"><label>Teléfono</label><input type="tel" name="address[phone]"></div>
+    <button type="submit" class="btn btn-primary" style="margin-top:10px;">Guardar dirección →</button>
+  {% endform %}
+</section>

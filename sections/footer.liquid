@@ -1,0 +1,59 @@
+<footer id="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">{{ section.settings.footer_title | default: shop.name }}</div>
+        <p class="foot-tag">{{ section.settings.tagline | default: "Tu belleza, tu esencia, tu luz." }}</p>
+      </div>
+      {% for block in section.blocks %}
+        <div class="foot-col">
+          <h6>{{ block.settings.title }}</h6>
+          {% for i in (1..6) %}
+            {% assign link_key = 'link_' | append: i %}
+            {% assign label_key = 'label_' | append: i %}
+            {% if block.settings[label_key] != blank %}
+              <a href="{{ block.settings[link_key] | default: '#' }}">{{ block.settings[label_key] }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="foot-bottom">
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.</span>
+      <div class="pay-icons">
+        {% for type in shop.enabled_payment_types %}<span>{{ type }}</span>{% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pie de página",
+  "settings": [
+    { "type": "text", "id": "footer_title", "label": "Nombre de marca", "default": "Aurora Beauty" },
+    { "type": "text", "id": "tagline", "label": "Frase corta", "default": "Tu belleza, tu esencia, tu luz." }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Columna de enlaces",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título de la columna" },
+        { "type": "text", "id": "label_1", "label": "Texto enlace 1" }, { "type": "url", "id": "link_1", "label": "URL enlace 1" },
+        { "type": "text", "id": "label_2", "label": "Texto enlace 2" }, { "type": "url", "id": "link_2", "label": "URL enlace 2" },
+        { "type": "text", "id": "label_3", "label": "Texto enlace 3" }, { "type": "url", "id": "link_3", "label": "URL enlace 3" },
+        { "type": "text", "id": "label_4", "label": "Texto enlace 4" }, { "type": "url", "id": "link_4", "label": "URL enlace 4" },
+        { "type": "text", "id": "label_5", "label": "Texto enlace 5" }, { "type": "url", "id": "link_5", "label": "URL enlace 5" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "column", "settings": { "title": "Tienda", "label_1": "Skincare", "label_2": "Maquillaje", "label_3": "Cuidado capilar", "label_4": "Accesorios", "label_5": "Ofertas" } },
+      { "type": "column", "settings": { "title": "Información", "label_1": "Sobre nosotros", "label_2": "Envíos", "label_3": "Cambios y devoluciones", "label_4": "Términos y condiciones" } },
+      { "type": "column", "settings": { "title": "Ayuda", "label_1": "Preguntas frecuentes", "label_2": "Guía de uso", "label_3": "Contacto" } }
+    ]
+  }
+}
+{% endschema %}

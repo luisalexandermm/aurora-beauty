@@ -1,0 +1,19 @@
+<div class="mobile-drawer" id="MobileDrawer" aria-hidden="true">
+  <div class="mobile-drawer__overlay" data-drawer-close></div>
+  <div class="mobile-drawer__panel" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+    <div class="mobile-drawer__head">
+      <span class="logo" style="font-size:19px;">{{ shop.name }}</span>
+      <button class="icon-btn" data-drawer-close aria-label="Cerrar menú">{% render 'icon-close' %}</button>
+    </div>
+    <nav class="mobile-drawer__nav">
+      <ul>
+        {% for link in linklists['main-menu'].links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="mobile-drawer__foot">
+      <a href="https://wa.me/{{ settings.whatsapp_number | default: '573145312045' }}" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%; justify-content:center;">Escríbenos por WhatsApp</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<section class="benefits">
+  <div class="wrap">
+    <div class="benefit-row reveal">
+      {% for block in section.blocks %}
+        <div {{ block.shopify_attributes }}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">{{ block.settings.icon_svg | default: '<path d="M12 3c4 3 6 6 6 10a6 6 0 1 1-12 0c0-4 2-7 6-10z"/>' }}</svg>
+          <h5>{{ block.settings.title }}</h5>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Beneficios",
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Beneficio",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "text", "id": "text", "label": "Descripción" },
+        { "type": "html", "id": "icon_svg", "label": "SVG del ícono (avanzado, opcional)", "info": "Solo el contenido interno del <svg>, ej: <path d=\"...\"/>" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "benefit", "settings": { "title": "Ingredientes seguros", "text": "Fórmulas efectivas y suaves para tu piel", "icon_svg": "<path d=\"M12 3c4 3 6 6 6 10a6 6 0 1 1-12 0c0-4 2-7 6-10z\"/>" } },
+      { "type": "benefit", "settings": { "title": "Cruelty free", "text": "No testeamos en animales, belleza consciente", "icon_svg": "<path d=\"M12 21s-7-4-9-9c-1.3-3.3 1-6 4-6 2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 3 0 5.3 2.7 4 6-2 5-9 9-9 9z\"/>" } },
+      { "type": "benefit", "settings": { "title": "Envíos confiables", "text": "Recibe tus productos en la puerta de tu hogar", "icon_svg": "<rect x=\"3\" y=\"7\" width=\"14\" height=\"12\" rx=\"1\"/><path d=\"M17 10h3l1 3v6h-4M7 19a2 2 0 1 0 4 0M15 19a2 2 0 1 0 4 0\"/>" } },
+      { "type": "benefit", "settings": { "title": "Compra segura", "text": "Pagos protegidos, 100% confidenciales", "icon_svg": "<path d=\"M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z\"/>" } }
+    ]
+  },
+  "presets": [{ "name": "Beneficios" }]
+}
+{% endschema %}

@@ -1,0 +1,32 @@
+<section class="newsletter">
+  <div class="wrap reveal">
+    <h2>{{ section.settings.heading | default: "Sé la primera en enterarte" }}</h2>
+    <p style="font-family:'Inter',sans-serif; color:var(--ink-soft); font-size:13.5px; margin-bottom:26px;">{{ section.settings.text | default: "Recibe novedades, lanzamientos y ofertas exclusivas." }}</p>
+
+    {% form 'customer', id: 'newsForm' %}
+      {% if form.posted_successfully? %}
+        <p class="news-success" style="display:block;">Gracias por suscribirte a {{ shop.name }}.</p>
+      {% else %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="news-row">
+          <input type="email" name="contact[email]" placeholder="Tu correo electrónico" required{% if form.email %} value="{{ form.email }}"{% endif %}>
+          <button type="submit" class="btn btn-primary magnetic">Suscribirme</button>
+        </div>
+        {% if form.errors %}
+          <p style="font-family:'Inter',sans-serif; color:#B33; font-size:12.5px; margin-top:10px;">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+        {% endif %}
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Sé la primera en enterarte" },
+    { "type": "textarea", "id": "text", "label": "Párrafo", "default": "Recibe novedades, lanzamientos y ofertas exclusivas." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

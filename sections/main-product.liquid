@@ -1,0 +1,135 @@
+<section class="wrap">
+  <div class="product-grid-page">
+    <div class="product-gallery">
+      <div class="product-gallery__main" id="ProductMainImage">
+        {% if product.featured_image %}
+          <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.title | escape }}" id="ProductMainImg">
+        {% endif %}
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="product-gallery__thumbs">
+          {% for image in product.images %}
+            <img src="{{ image | image_url: width: 150 }}" alt="{{ product.title | escape }}" class="{% if forloop.first %}active{% endif %}" data-full="{{ image | image_url: width: 900 }}">
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="product-info">
+      <h1>{{ product.title }}</h1>
+      {% if product.vendor != blank %}<div class="vendor">{{ product.vendor }}</div>{% endif %}
+
+      {% assign rating = product.metafields.reviews.rating.value %}
+      {% assign rating_count = product.metafields.reviews.rating_count.value %}
+      {% if rating %}
+        {% assign rating_rounded = rating | round %}
+        <div class="prod-rating" style="margin-bottom:14px;">
+          {% for i in (1..5) %}{% if i <= rating_rounded %}★{% else %}☆{% endif %}{% endfor %}
+          {% if rating_count %}<span>({{ rating_count }} reseñas)</span>{% endif %}
+        </div>
+      {% endif %}
+
+      {% form 'product', product, id: 'ProductForm' %}
+        <div class="price" id="ProductPrice">
+          {{ form.selected_variant.price | money }}
+          {% if form.selected_variant.compare_at_price > form.selected_variant.price %}
+            <span class="compare">{{ form.selected_variant.compare_at_price | money }}</span>
+          {% endif %}
+        </div>
+
+        {% if product.description != blank %}
+          <div class="desc">{{ product.description | strip_html | truncatewords: 60 }}</div>
+        {% endif %}
+
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <div class="product-variants">
+              <label>{{ option.name }}</label>
+              <div class="qv-option-pills">
+                {% for value in option.values %}
+                  <button type="button" class="option-pill{% if forloop.first %} active{% endif %}" data-opt-idx="{{ forloop.index0 }}" data-opt-val="{{ value }}">{{ value }}</button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endunless %}
+
+        <select name="id" id="ProductVariantSelect" style="display:none;">
+          {% for variant in product.variants %}
+            <option value="{{ variant.id }}" {% if variant == form.selected_variant %}selected{% endif %} data-price="{{ variant.price }}" data-compare="{{ variant.compare_at_price }}" data-o1="{{ variant.option1 }}" data-o2="{{ variant.option2 }}" data-o3="{{ variant.option3 }}">{{ variant.title }}</option>
+          {% endfor %}
+        </select>
+
+        <div class="qv-actions">
+          {% if product.available %}
+            <button type="submit" class="btn btn-primary" id="ProductAddBtn">Agregar al carrito →</button>
+          {% else %}
+            <button type="button" class="btn btn-outline" disabled>Agotado</button>
+          {% endif %}
+        </div>
+      {% endform %}
+
+      {% if product.metafields.custom.benefits.value %}
+        <ul style="margin-top:22px;">
+          {% for b in product.metafields.custom.benefits.value %}
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>{{ b }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var thumbs = document.querySelectorAll('.product-gallery__thumbs img');
+    var mainImg = document.getElementById('ProductMainImg');
+    thumbs.forEach(function(t){
+      t.addEventListener('click', function(){
+        thumbs.forEach(function(x){ x.classList.remove('active'); });
+        t.classList.add('active');
+        if (mainImg) mainImg.src = t.dataset.full;
+      });
+    });
+
+    var select = document.getElementById('ProductVariantSelect');
+    var priceEl = document.getElementById('ProductPrice');
+    var pills = document.querySelectorAll('.product-variants .option-pill');
+    var selected = {};
+    function formatMoney(cents){ return '$' + Math.round(cents/100).toLocaleString('es-CO').replace(/,/g,'.'); }
+    pills.forEach(function(pill){
+      pill.addEventListener('click', function(){
+        var idx = pill.dataset.optIdx;
+        document.querySelectorAll('.option-pill[data-opt-idx="' + idx + '"]').forEach(function(b){ b.classList.remove('active'); });
+        pill.classList.add('active');
+        selected[idx] = pill.dataset.optVal;
+        var match = Array.from(select.options).find(function(o){
+          var opts = [o.dataset.o1, o.dataset.o2, o.dataset.o3];
+          return Object.keys(selected).every(function(i){ return opts[i] === selected[i]; });
+        });
+        if (match) {
+          select.value = match.value;
+          var compare = parseInt(match.dataset.compare || '0', 10);
+          var price = parseInt(match.dataset.price || '0', 10);
+          priceEl.innerHTML = formatMoney(price) + (compare > price ? '<span class="compare">' + formatMoney(compare) + '</span>' : '');
+        }
+      });
+    });
+
+    var form = document.getElementById('ProductForm');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!window.AuroraCart) { form.submit(); return; }
+        var btn = document.getElementById('ProductAddBtn');
+        var variantId = select ? select.value : form.querySelector('[name="id"]').value;
+        if (btn) btn.disabled = true;
+        window.AuroraCart.add(variantId, 1).then(function () {
+          window.AuroraCart.open();
+        }).catch(function () {
+          window.location.href = '/cart/add?id=' + variantId + '&quantity=1';
+        }).finally(function () { if (btn) btn.disabled = false; });
+      });
+    }
+  });
+</script>
