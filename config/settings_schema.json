@@ -11,7 +11,7 @@
       { "type": "text", "id": "whatsapp_number", "label": "Número de WhatsApp (con código de país, sin +)", "default": "573145312045", "info": "Ej: 573145312045. Se usa para recibir los pedidos del checkout y el botón del menú móvil." }
     ]
   },
-  {
+  { 
     "name": "Colores",
     "settings": [
       { "type": "header", "content": "Paleta Aurora Beauty" },
